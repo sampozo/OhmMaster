@@ -6,6 +6,10 @@ on:
       - main
   workflow_dispatch:
 
+# REQUIRED: grant write permissions so GITHUB_TOKEN can create releases
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,7 +20,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js 24
         uses: actions/setup-node@v4
         with:
           node-version: 24
@@ -33,13 +37,13 @@ jobs:
           distribution: 'zulu'
           java-version: '21'
 
-      - name: Setup Android SDK (API 36)
+      - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Install Android SDK API 36 & Build Tools
+      - name: Install Android SDK API 36
         run: |
+          yes | sdkmanager --licenses || true
           sdkmanager "platforms;android-36" "build-tools;36.0.0"
-          yes | sdkmanager --licenses
 
       - name: Sync Capacitor
         run: npx cap sync android
@@ -50,28 +54,27 @@ jobs:
       - name: Build Android APK
         run: |
           cd android
-          ./gradlew assembleDebug --stacktrace
+          ./gradlew assembleDebug --no-daemon
 
-      - name: Rename APK
+      - name: Rename APK to OhmMaster.apk
         run: |
           mkdir -p release
           cp android/app/build/outputs/apk/debug/app-debug.apk release/OhmMaster.apk
 
-      - name: Upload APK Artifact
+      - name: Upload APK as Artifact
         uses: actions/upload-artifact@v4
         with:
           name: OhmMaster-apk
           path: release/OhmMaster.apk
 
-      - name: Create GitHub Release
+      - name: Create GitHub Release with APK
         uses: softprops/action-gh-release@v1
-        if: github.ref == 'refs/heads/main'
         with:
           files: release/OhmMaster.apk
           tag_name: v2.0.${{ github.run_number }}
           name: OhmMaster Pro v2.0.${{ github.run_number }}
           body: |
-            ✅ Compilación automática de **OhmMaster Pro v2.0**
-            APK listo para instalar en Android.
+            ✅ Compilación automática OK
+            📱 Instala **OhmMaster.apk** directamente en tu Android.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
