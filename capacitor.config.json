@@ -1,0 +1,6 @@
+{
+  "appId": "com.ohmmaster.pro",
+  "appName": "OhmMaster Pro",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}

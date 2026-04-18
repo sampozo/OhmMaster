@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>OhmMaster Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <div class="header-content">
+                <h1>Ohm<span>Master</span> Pro</h1>
+                <p class="subtitle">1RM Engineering Labs • v2.0</p>
+            </div>
+        </header>
+
+        <main>
+            <!-- 1. LEY DE OHM -->
+            <section class="card glass-card" id="section-ohm">
+                <div class="card-header">
+                    <span class="step-num">1</span>
+                    <h2>LEY DE OHM</h2>
+                </div>
+                
+                <div class="diagram-area">
+                    <svg class="schematic" width="180" height="100" viewBox="0 0 180 100">
+                        <!-- Battery -->
+                        <line x1="30" y1="40" x2="30" y2="60" class="wire bold-wire" />
+                        <line x1="20" y1="45" x2="40" y2="45" class="wire" />
+                        <line x1="25" y1="55" x2="35" y2="55" class="wire" />
+                        <!-- Resistor -->
+                        <path d="M 80 20 L 85 15 L 90 25 L 95 15 L 100 25 L 105 15 L 110 20" class="component-primary" fill="none" stroke-width="2" />
+                        <!-- Loop -->
+                        <rect x="30" y="20" width="120" height="60" class="wire" fill="none" />
+                        <!-- Labels -->
+                        <text x="10" y="55" class="label-v">V</text>
+                        <text x="92" y="10" class="label-r">R</text>
+                        <!-- Current Arrow -->
+                        <line x1="90" y1="35" x2="110" y2="35" class="wire-i" marker-end="url(#arrowhead)" />
+                        <text x="100" y="50" class="label-i">i</text>
+                        
+                        <defs>
+                            <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                                <polygon points="0 0, 6 3, 0 6" fill="white" />
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+
+                <div class="input-grid">
+                    <div class="input-container" data-field="v">
+                        <label>V <span class="desc">(VOLTAJE)</span></label>
+                        <div class="input-wrapper">
+                            <input type="number" id="input-v" step="any" placeholder="0.0">
+                            <span class="unit-label">V</span>
+                            <span class="prefix-tag" id="tag-v">x1</span>
+                        </div>
+                    </div>
+                    <div class="input-container" data-field="i">
+                        <label>I <span class="desc">(CORRIENTE)</span></label>
+                        <div class="input-wrapper">
+                            <input type="number" id="input-i" step="any" placeholder="0.0">
+                            <span class="unit-label">A</span>
+                            <span class="prefix-tag" id="tag-i">x1</span>
+                        </div>
+                    </div>
+                    <div class="input-container" data-field="r">
+                        <label>R <span class="desc">(RESISTENCIA)</span></label>
+                        <div class="input-wrapper">
+                            <input type="number" id="input-r" step="any" placeholder="0.0">
+                            <span class="unit-label">Ω</span>
+                            <span class="prefix-tag" id="tag-r">x1</span>
+                        </div>
+                    </div>
+                    <div class="input-container" data-field="p">
+                        <label>P <span class="desc">(POTENCIA)</span></label>
+                        <div class="input-wrapper">
+                            <input type="number" id="input-p" step="any" placeholder="0.0">
+                            <span class="unit-label">W</span>
+                            <span class="prefix-tag" id="tag-p">x1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="prefix-keyboard" id="prefix-kbd-ohm">
+                    <span class="kbd-label">PREFIX</span>
+                    <div class="keys">
+                        <button class="key" data-val="1e6">G</button>
+                        <button class="key" data-val="1e3">k</button>
+                        <button class="key active" data-val="1">1</button>
+                        <button class="key" data-val="1e-3">m</button>
+                        <button class="key" data-val="1e-6">µ</button>
+                    </div>
+                </div>
+
+                <div class="action-row">
+                    <button class="btn-secondary" id="btn-clear-ohm">BORRAR TODO</button>
+                    <button class="btn-primary" id="btn-calc-ohm">CALCULAR</button>
+                </div>
+            </section>
+
+            <!-- 2. DIVISOR DE VOLTAJE -->
+            <section class="card glass-card" id="section-vdiv">
+                <div class="card-header">
+                    <span class="step-num">2</span>
+                    <h2>DIVISOR DE VOLTAJE</h2>
+                </div>
+                
+                <div class="diagram-area">
+                    <svg class="schematic" width="180" height="120" viewBox="0 0 180 120">
+                         <!-- Loop -->
+                        <path d="M 40 20 L 120 20 L 120 100 L 40 100 Z" class="wire" fill="none" />
+                        <!-- R1 -->
+                        <rect x="110" y="30" width="20" height="10" class="component-bg" />
+                        <path d="M 110 35 L 114 30 L 118 40 L 122 30 L 126 40 L 130 35" class="component-primary" fill="none" stroke-width="2" />
+                        <!-- R2 -->
+                        <rect x="110" y="70" width="20" height="10" class="component-bg" />
+                        <path d="M 110 75 L 114 70 L 118 80 L 122 70 L 126 80 L 130 75" class="component-primary" fill="none" stroke-width="2" />
+                        <!-- Labels -->
+                        <text x="15" y="65" class="label-v">Vin</text>
+                        <text x="140" y="38" class="label-r">R1</text>
+                        <text x="140" y="78" class="label-r">R2</text>
+                        <text x="140" y="58" class="label-accent">Vout</text>
+                        <!-- Output Line -->
+                        <line x1="120" y1="55" x2="140" y2="55" class="wire-accent" marker-end="url(#arrowhead-accent)" />
+                        
+                        <defs>
+                            <marker id="arrowhead-accent" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                                <polygon points="0 0, 6 3, 0 6" fill="#00e5ff" />
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+
+                <div class="input-grid">
+                    <div class="input-container full-width">
+                        <label>Vin <span class="desc">V ENTRADA</span></label>
+                        <div class="input-wrapper">
+                            <input type="number" id="vdiv-vin" step="any" placeholder="0.0">
+                            <span class="unit-label">V</span>
+                        </div>
+                    </div>
+                    <div class="input-container highlight">
+                        <label>Vout <span class="desc">V SALIDA</span></label>
+                        <div class="input-wrapper">
+                            <input type="text" id="vdiv-vout" readonly placeholder=".0">
+                            <span class="unit-label">V</span>
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <label>R1 <span class="desc">(SUPERIOR)</span></label>
+                        <div class="input-wrapper">
+                            <input type="number" id="vdiv-r1" step="any" placeholder="0.0">
+                            <span class="unit-label">Ω</span>
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <label>R2 <span class="desc">(INFERIOR)</span></label>
+                        <div class="input-wrapper">
+                            <input type="number" id="vdiv-r2" step="any" placeholder="0.0">
+                            <span class="unit-label">Ω</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-primary w100" id="btn-calc-vdiv">CALCULAR VOUT</button>
+            </section>
+        </main>
+
+        <footer>
+            <p>Uses JetBrains Mono for all numeric values and prefixes</p>
+            <p>Uses Outfit for titles and labels</p>
+        </footer>
+    </div>
+    
+    <script type="module" src="/main.js"></script>
+</body>
+</html>
